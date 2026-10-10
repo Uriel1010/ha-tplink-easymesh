@@ -1,0 +1,42 @@
+name: Validate
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test on the supported Home Assistant version
+        run: >-
+          docker run --rm --entrypoint /bin/sh
+          -v "$PWD:/workspace" -w /workspace
+          ghcr.io/home-assistant/home-assistant:2026.10.1
+          -c 'python -m pip install tplinkrouterc6u==5.36.0 pytest pytest-asyncio ruff &&
+          python -m pytest -q -p no:cacheprovider &&
+          python -m ruff check . --no-cache && python -m ruff format . --check --no-cache'
+  hassfest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: home-assistant/actions/hassfest@master
+  hacs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hacs/action@main
+        with:
+          category: integration
+          ignore: brands
+  secrets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

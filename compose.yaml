@@ -1,0 +1,18 @@
+services:
+  homeassistant-test:
+    image: ghcr.io/home-assistant/home-assistant:2026.10.1
+    container_name: ha-tplink-easymesh-test
+    restart: "no"
+    labels:
+      com.centurylinklabs.watchtower.enable: "false"
+    ports:
+      - "127.0.0.1:18123:8123"
+    volumes:
+      - ./.dev/ha:/config
+      - ./custom_components:/config/custom_components:ro
+      - ./:/workspace:ro
+    networks:
+      - development
+networks:
+  development:
+    name: ha-tplink-easymesh-development

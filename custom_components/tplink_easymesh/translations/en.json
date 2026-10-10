@@ -1,0 +1,53 @@
+{
+  "title": "TP-Link EasyMesh Monitor",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect to your router",
+        "description": "Read-only local monitoring. Use the local admin password, not your Wi-Fi password or TP-Link ID.",
+        "data": {
+          "host": "Router address",
+          "password": "Local admin password"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Connect to your router",
+        "description": "Read-only local monitoring. Use the local admin password, not your Wi-Fi password or TP-Link ID.",
+        "data": {
+          "host": "Router address",
+          "password": "Local admin password"
+        }
+      },
+      "reconfigure": {
+        "title": "Connect to your router",
+        "description": "Read-only local monitoring. Use the local admin password, not your Wi-Fi password or TP-Link ID.",
+        "data": {
+          "host": "Router address",
+          "password": "Local admin password"
+        }
+      }
+    },
+    "error": {
+      "invalid_host": "Enter a router hostname or HTTP(S) URL without credentials or a path.",
+      "invalid_auth": "The local router admin password is incorrect.",
+      "cannot_connect": "Cannot reach the router or this firmware is not supported.",
+      "unknown": "Unexpected error. See sanitized logs."
+    },
+    "abort": {
+      "already_configured": "This router is already configured.",
+      "wrong_router": "These credentials belong to a different router.",
+      "reauth_successful": "Authentication updated.",
+      "reconfigure_successful": "Router connection updated."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Polling options",
+        "data": {
+          "scan_interval": "Update interval (seconds, 30\u20133600)"
+        }
+      }
+    }
+  }
+}
