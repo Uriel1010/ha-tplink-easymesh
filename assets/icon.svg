@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <title>EasyMesh Monitor</title>
+  <desc>A router connected to three mesh nodes on a navy rounded square.</desc>
+  <rect x="8" y="8" width="240" height="240" rx="56" fill="#102b3f"/>
+  <g fill="none" stroke="#36dbc4" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M128 106V61M96 144H57M160 144h39"/>
+    <path d="M94 137v-28m68 28v-28"/>
+  </g>
+  <g fill="#36dbc4">
+    <circle cx="128" cy="54" r="19"/>
+    <circle cx="49" cy="144" r="19"/>
+    <circle cx="207" cy="144" r="19"/>
+  </g>
+  <rect x="77" y="128" width="102" height="61" rx="17" fill="#f0fffc"/>
+  <g fill="#102b3f">
+    <circle cx="101" cy="159" r="6"/>
+    <rect x="118" y="153" width="38" height="12" rx="6"/>
+  </g>
+  <rect x="111" y="207" width="34" height="8" rx="4" fill="#36dbc4"/>
+</svg>

@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.1
+
+- Include a custom router-and-mesh icon with standard, high-resolution and dark variants.
+- Display the icon in Home Assistant using bundled local brand assets.
+
 ## 0.1.0
 
 - Local read-only AX10 and C64 EasyMesh monitoring.

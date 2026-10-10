@@ -1,5 +1,7 @@
 # TP-Link EasyMesh Monitor
 
+<img src="custom_components/tplink_easymesh/brand/icon.png" alt="EasyMesh Monitor icon" width="96" height="96">
+
 [![Validate](https://github.com/Uriel1010/ha-tplink-easymesh/actions/workflows/validate.yml/badge.svg)](https://github.com/Uriel1010/ha-tplink-easymesh/actions/workflows/validate.yml)
 
 Local, **read-only** router and EasyMesh monitoring for Home Assistant.
