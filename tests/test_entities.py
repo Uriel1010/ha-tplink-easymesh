@@ -3,6 +3,7 @@ from types import SimpleNamespace
 from unittest.mock import MagicMock
 
 import pytest
+from homeassistant.helpers.entity import EntityCategory
 
 from custom_components.tplink_easymesh.binary_sensor import EasyMeshConnectivity
 from custom_components.tplink_easymesh.diagnostics import async_get_config_entry_diagnostics
@@ -45,6 +46,34 @@ def test_client_ip_change_and_disconnect(coordinator):
     assert ent.unique_id == ident
     coordinator.data["clients"] = {}
     assert ent.is_on is False
+
+
+@pytest.mark.parametrize("kind", ["router", "satellite", "client"])
+def test_mac_sensor_enabled_and_formatted(coordinator, kind):
+    ident = "020000000010" if kind != "router" else coordinator.root_id
+    if kind == "satellite":
+        coordinator.data["satellites"][ident] = {"id": ident, "name": "Test satellite"}
+    description = next(d for d in DESCRIPTIONS[kind] if d[0] == "mac")
+    sensor = EasyMeshSensor(coordinator, kind, ident, description)
+    expected = "02:00:00:00:00:01" if kind == "router" else "02:00:00:00:00:10"
+    assert sensor.native_value == expected
+    assert sensor.entity_registry_enabled_default
+    assert sensor.entity_category == EntityCategory.DIAGNOSTIC
+    assert sensor.state_class is None
+    assert sensor.native_unit_of_measurement is None
+
+
+def test_mac_sensor_remains_visible_after_ip_change_and_disconnect(coordinator):
+    description = next(d for d in DESCRIPTIONS["client"] if d[0] == "mac")
+    sensor = EasyMeshSensor(coordinator, "client", "020000000010", description)
+    unique_id = sensor.unique_id
+    coordinator.data["clients"]["020000000010"]["ip"] = "192.0.2.20"
+    coordinator.data["clients"] = {}
+    assert sensor.native_value == "02:00:00:00:00:10"
+    assert sensor.unique_id == unique_id
+    assert sensor.available
+    coordinator.last_update_success = False
+    assert not sensor.available
 
 
 def test_unavailable_not_disconnected(coordinator):

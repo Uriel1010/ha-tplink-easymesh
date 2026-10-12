@@ -1,12 +1,14 @@
 """Read-only router, mesh and client measurements."""
 
 from homeassistant.components.sensor import SensorDeviceClass, SensorEntity, SensorStateClass
+from homeassistant.helpers.entity import EntityCategory
 
 from .entity import EasyMeshEntity, add_dynamic_entities
 
 # key, display name, unit, device class, enabled by default
 DESCRIPTIONS = {
     "router": [
+        ("mac", "MAC address", None, None, True),
         ("cpu", "CPU usage", "%", None, True),
         ("memory", "Memory usage", "%", None, True),
         ("uptime", "WAN uptime", "s", SensorDeviceClass.DURATION, True),
@@ -20,6 +22,7 @@ DESCRIPTIONS = {
         ("duplex", "Duplex", None, None, True),
     ],
     "satellite": [
+        ("mac", "MAC address", None, None, True),
         ("ip", "IP address", None, None, True),
         ("location", "Configured location", None, None, True),
         ("backhaul", "Backhaul type", None, None, True),
@@ -27,6 +30,7 @@ DESCRIPTIONS = {
         ("clients", "Connected clients", None, None, True),
     ],
     "client": [
+        ("mac", "MAC address", None, None, True),
         ("ip", "IP address", None, None, True),
         ("connection", "Connection type", None, None, True),
         ("ap", "Access point", None, None, True),
@@ -35,7 +39,7 @@ DESCRIPTIONS = {
         ("rx_rate", "RX link rate", "Mbit/s", SensorDeviceClass.DATA_RATE, False),
     ],
 }
-TEXT_KEYS = {"wan_ip", "ip", "location", "backhaul", "connection", "ap", "duplex"}
+TEXT_KEYS = {"mac", "wan_ip", "ip", "location", "backhaul", "connection", "ap", "duplex"}
 
 
 class EasyMeshSensor(EasyMeshEntity, SensorEntity):
@@ -47,11 +51,17 @@ class EasyMeshSensor(EasyMeshEntity, SensorEntity):
         self._attr_native_unit_of_measurement = unit
         self._attr_device_class = device_class
         self._attr_entity_registry_enabled_default = enabled
+        if key == "mac":
+            self._attr_entity_category = EntityCategory.DIAGNOSTIC
+            self._attr_icon = "mdi:identifier"
         if key not in TEXT_KEYS:
             self._attr_state_class = SensorStateClass.MEASUREMENT
 
     @property
     def native_value(self):
+        if self.key == "mac":
+            # MAC-derived identity persists even when the client leaves the poll result.
+            return ":".join(self.ident[i : i + 2] for i in range(0, len(self.ident), 2)).upper()
         return self.item.get(self.key)
 
 

@@ -8,5 +8,5 @@
   "iot_class": "local_polling",
   "issue_tracker": "https://github.com/Uriel1010/ha-tplink-easymesh/issues",
   "requirements": ["tplinkrouterc6u==5.36.0"],
-  "version": "0.1.1"
+  "version": "0.1.2"
 }

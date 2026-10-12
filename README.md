@@ -29,10 +29,10 @@ Home Assistant `config/custom_components/` folder and restart.
 
 | Device | Monitoring |
 | --- | --- |
-| Main router | WAN connection/uptime, CPU, memory, wired/wireless/total clients |
+| Main router | MAC address, WAN connection/uptime, CPU, memory, wired/wireless/total clients |
 | Ethernet ports | Connection, negotiated speed, duplex for each reported port |
-| Mesh satellites | Connection, IP, configured location, backhaul type/speed, client count |
-| Network clients | Connection, IP, connection type, access point, RSSI when supplied |
+| Mesh satellites | MAC address, connection, IP, configured location, backhaul type/speed, client count |
+| Network clients | MAC address, connection, IP, connection type, access point, RSSI when supplied |
 
 Per-client TX/RX link-rate sensors are created **disabled by default**; enable
 them in the entity settings if needed. WAN IP is also disabled by default.
@@ -40,6 +40,9 @@ Client entities are connectivity observations, not Home Assistant presence
 trackers. Phones using randomized MAC addresses can appear as different devices.
 Discovered client devices remain in the registry after disconnecting; their
 connectivity sensor turns off after a successful poll no longer lists them.
+The **MAC address** sensor is enabled by default under each device's diagnostic
+entities. It uses uppercase colon-separated notation and retains the address
+when the client disconnects. Existing entity identifiers are preserved on update.
 
 Wi-Fi PHY rates and negotiated Ethernet speed are **not Internet speed tests**.
 TX/RX names preserve the router's reported direction. A configured satellite
